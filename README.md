@@ -1,5 +1,7 @@
 # AP1
 
+**Installation**
+
  To compile the code do the following command:
 ```
 g++ -std=c++11 main.cpp Distances.h Distances.cpp
