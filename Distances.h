@@ -3,15 +3,21 @@
 #include <vector>
 using namespace std;
 
-class Distances {
-    //members
+class Distances
+{
+    // members
     vector<double> v1, v2;
+
 public:
-    //constructor
+    // constructor
     Distances(vector<double> &v1, const vector<double> &v2);
-    //distance functions
+    // distance functions
+
+    double euclidianDistance();
+
+    double minkowskiDistance();
 
     double minkowskiDistanceGeneric(int exp);
 };
 
-#endif //AP1_DISTANCES_H
+#endif // AP1_DISTANCES_H

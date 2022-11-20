@@ -11,6 +11,12 @@ Distances ::Distances(vector<double> &v1, const vector<double> &v2)
     this->v2 = v2;
 }
 
+// calculate euclidian distance
+double Distances::euclidianDistance()
+{
+    return minkowskiDistanceGeneric(2);
+}
+
 // calculate minkowski distance
 double Distances::minkowskiDistance()
 {
@@ -19,12 +25,12 @@ double Distances::minkowskiDistance()
 
 double Distances::minkowskiDistanceGeneric(int exp)
 {
-    if(v1.empty())
+    if (v1.empty())
         return 0;
     double distance = 0;
     for (int i = 0; i < v1.size(); ++i)
     {
         distance += pow(abs(v1[i] - v2[i]), exp);
     }
-    return pow(distance, 1.0 /exp);
+    return pow(distance, 1.0 / exp);
 }
