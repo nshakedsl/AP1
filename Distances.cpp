@@ -14,6 +14,8 @@ Distances ::Distances(vector<double> &v1, const vector<double> &v2)
 // calculate canberra distance
 double Distances::canberraDistance()
 {
+    if (v1.empty())
+        return 0;
     double distance = 0;
     for (int i = 0; i < v1.size(); ++i)
     {
