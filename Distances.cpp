@@ -23,6 +23,7 @@ double Distances::minkowskiDistance()
     return minkowskiDistanceGeneric(P);
 }
 
+// Generic implemention of minkowski distance
 double Distances::minkowskiDistanceGeneric(int exp)
 {
     if (v1.empty())
