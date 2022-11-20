@@ -11,6 +11,12 @@ Distances ::Distances(vector<double> &v1, const vector<double> &v2)
     this->v2 = v2;
 }
 
+// calculate manhatten distance
+double Distances::manhattenDistance()
+{
+    return minkowskiDistanceGeneric(1);
+}
+
 // calculate euclidian distance
 double Distances::euclidianDistance()
 {
