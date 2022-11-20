@@ -21,6 +21,8 @@ public:
 
     double minkowskiDistance();
 
+    double chebyshevDistance();
+
     double minkowskiDistanceGeneric(int exp);
 };
 
