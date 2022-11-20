@@ -24,6 +24,18 @@ double Distances::canberraDistance()
     return distance;
 }
 
+//calculate chebyshev distance
+double Distances::chebyshevDistance()
+{
+    double distance = 0;
+    for (int i = 0; i < v1.size(); ++i)
+    {
+        if (abs(v1[i] - v2[i]) > distance)
+            distance = abs(v1[i] - v2[i]);
+    }
+    return distance;
+}
+
 // calculate manhatten distance
 double Distances::manhattenDistance()
 {
