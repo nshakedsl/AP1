@@ -50,7 +50,7 @@ vector<double> parseString(const string &s)
             temp = s.substr(prev, counter - prev);
             if (!validDouble(temp))
             {
-                cout << "illegal input";
+                cout << "illegal input" << endl;
                 exit(1);
             }
             v.push_back(stof(temp));
@@ -93,6 +93,6 @@ int main()
     printLongDouble(d.manhattenDistance());
     printLongDouble(d.chebyshevDistance());
     printLongDouble(d.canberraDistance());
-    printLongDouble(d.minkowskiDistance(), false);
+    printLongDouble(d.minkowskiDistance());
     return 0;
 }
