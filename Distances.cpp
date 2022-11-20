@@ -24,9 +24,11 @@ double Distances::canberraDistance()
     return distance;
 }
 
-//calculate chebyshev distance
+// calculate chebyshev distance
 double Distances::chebyshevDistance()
 {
+    if (v1.empty())
+        return 0;
     double distance = 0;
     for (int i = 0; i < v1.size(); ++i)
     {
