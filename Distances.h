@@ -13,6 +13,8 @@ public:
     Distances(vector<double> &v1, const vector<double> &v2);
     // distance functions
 
+    double canberraDistance();
+
     double manhattenDistance();
 
     double euclidianDistance();

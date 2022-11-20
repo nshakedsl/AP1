@@ -11,6 +11,19 @@ Distances ::Distances(vector<double> &v1, const vector<double> &v2)
     this->v2 = v2;
 }
 
+// calculate canberra distance
+double Distances::canberraDistance()
+{
+    if (v1.empty())
+        return 0;
+    double distance = 0;
+    for (int i = 0; i < v1.size(); ++i)
+    {
+        distance += (double)abs(v1[i] - v2[i]) / (double)(abs(v1[i]) + abs(v2[i]));
+    }
+    return distance;
+}
+
 // calculate manhatten distance
 double Distances::manhattenDistance()
 {
