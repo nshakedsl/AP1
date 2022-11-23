@@ -3,9 +3,11 @@
 #include "Distances.h"
 using namespace std;
 
+// Makes sure the input string is a valid double
 bool validDouble(string s){
     bool hadDot = false;
     bool hadDigit = false;
+    // Loops through the string we received
     for (int i = 0; i < s.size(); ++i) {
         if(i == 0 && s[i] == '-'){
             continue;
@@ -31,6 +33,7 @@ void printLongDouble(double value, bool val = true){
         cout << endl;
 }
 
+// Convert string to vector
 vector<double> parseString(const string& s){
     int counter = 0;
     int prev = 0;
@@ -66,10 +69,12 @@ int main() {
     vector<double> v1 = parseString(input1);
     getline(cin,input2, '\n');
     vector<double> v2 = parseString(input2);
+    // edge case - empty vector
     if(v1.empty()){
         cout<<"empty vector, bye!"<<endl;
         return 0;
     }
+    // edge case - different size of vectors
     if(v1.size() != v2.size()){
         cout<<"illegal input, bye!"<<endl;
         return 0;
