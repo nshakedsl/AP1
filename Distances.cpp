@@ -1,4 +1,3 @@
-
 #include "Distances.h"
 #define P 3
 #include <cmath>
@@ -7,6 +6,9 @@ using namespace std;
 // constructor
 Distances ::Distances(vector<double> &v1, const vector<double> &v2)
 {
+    if(v1.size()!=v2.size()){
+        throw std::invalid_argument("vectors are not equal");
+    }
     this->v1 = v1;
     this->v2 = v2;
 }
