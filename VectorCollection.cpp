@@ -9,6 +9,24 @@ void VectorCollection::pushVector(const std::vector<double> &vec) {
     vectorList.push_back(vec);
 }
 
+std::vector<vector<double>>
+VectorCollection::getDistancesK(const std::vector<double> &vector, const std::string &format, int k) {
+    //initializes a sorted multimap
+    std::multimap<double, std::vector<double>> sortedVecs = getDistances(vector, format);
+    //an empty vector of vectors
+    std::vector<std::vector<double>> kVectors;
+    int counter = 0;
+    //adds the first k vectors in the map
+    for (auto &sortedVec: sortedVecs) {
+        if (counter == k)
+            break;
+        kVectors.push_back(sortedVec.second);
+        counter++;
+    }
+    return kVectors;
+}
+
+
 //calculate the distance of all the vectors according to the chosen method
 //we assume that the map is actually created sorted by the key
 //returns multimap of distance, vector
