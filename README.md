@@ -20,7 +20,7 @@ To run the code do the following command:
 
 **Milestone 1 B branch:**
 
-Targil 2 is Milestone 1 B is on branch Milestone1b
+Targil 2 (Milestone 1 B) is on branch Milestone1b
 
 ### **Implementation:**
 
