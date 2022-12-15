@@ -18,6 +18,10 @@ To run the code do the following command:
 4) Distance Canberra - CAN
 5) Minkowski distance - MIN
 
+**Milestone 1 B branch:**
+
+Targil 2 is Milestone 1 B is on branch Milestone1b
+
 ### **Implementation:**
 
 #### **Milestone 1 A:**
