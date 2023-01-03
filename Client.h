@@ -1,6 +1,6 @@
 
-#ifndef AP1REAL_CLIENT_H
-#define AP1REAL_CLIENT_H
+#ifndef AP1_CLIENT_H
+#define AP1_CLIENT_H
 
 #include <iostream>
 #include <sys/socket.h>
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //AP1REAL_CLIENT_H
+#endif

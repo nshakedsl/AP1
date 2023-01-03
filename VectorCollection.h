@@ -1,5 +1,5 @@
-#ifndef AP1REAL_VECTORCOLLECTION_H
-#define AP1REAL_VECTORCOLLECTION_H
+#ifndef AP1_VECTORCOLLECTION_H
+#define AP1_VECTORCOLLECTION_H
 
 #include <string>
 #include <map>
@@ -20,4 +20,4 @@ public:
     void pushVector(const std::vector<double>& vec);
 };
 
-#endif //AP1REAL_VECTORCOLLECTION_H
+#endif 

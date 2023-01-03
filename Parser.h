@@ -1,5 +1,5 @@
-#ifndef AP1REAL_PARSER_H
-#define AP1REAL_PARSER_H
+#ifndef AP1_PARSER_H
+#define AP1_PARSER_H
 
 #include "vector"
 #include <string>
@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //AP1REAL_PARSER_H
+#endif 
