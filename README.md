@@ -1,3 +1,4 @@
+
 # AP1
 
 To compile the code do the following command:
@@ -7,9 +8,8 @@ make
 
 To run the code do the following command:
 ```
-./server.out file port
+./server.out port
 ```
-- **file** is the name of the file of the tagged vectors (can be a relative or full address)
 - **port** is the port number of the server to listen on
 
 ```
@@ -27,6 +27,10 @@ Targil 2 (Milestone 1 B) is on branch Milestone1b
 
 Targil 3 (Milestone 2) is on branch Milestone2
 
+**Milestone3 branch:**
+
+Targil 4 (Milestone 3) is on branch Milestone3
+
 ### **Implementation:**
 
 #### **Milestone 1 A:**
@@ -37,6 +41,9 @@ The csv file is read with fstream and sstream libraries. All the vectors are rea
 
 #### **Milestone 2:**
 The server and the client communicate using the TCP protocol with sys/socket, arpa/inet, unistd and netinet/in libraries. The server listens on a specified port and serves incoming clients by reading data from them, parsing it, and sending a response back. We moved the implementation of the previous exercise to the following classes: Classification, File, Parser.
+
+#### **Milestone 3:**
+Use TCP Socket to allow the client to upload the file. Implement Design Pattern Command.
 
 ### **Optimisations:**
 
@@ -50,4 +57,4 @@ We took the length calculation out of the for loop to optimize the code.
 
 **The constant p**
 
-We chose a constant p=3 for the algorithm Minkowski.
+We chose a constant p=2 for the algorithm Minkowski.
