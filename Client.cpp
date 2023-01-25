@@ -1,79 +1,38 @@
-#include "Client.h"
 #include <iostream>
+#include <sys/socket.h>
+#include <cstdio>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include "thread"
+#include <cstring>
+#include <mutex>
+#include "SocketIO.h"
+#include "FileIO.h"
+#define EMPTY   {2,3,0}
 
-void str_copy(char* dest, const std::string& src){
-    unsigned long length = src.length();
-    for (int i = 0; i < length; ++i) {
-        dest[i] = src[i];
+/*
+ * attempt to write to the file in the given destination
+ * print invalid input if the download failed
+ */
+void downLoad(const std::string& path,const std::string &input){
+    std::mutex m;
+    FileIO fileIo = FileIO();
+    fileIo.setPath(path);
+    m.lock();
+    try {
+        if(input != "please classify the data" && input != "please upload data")
+            fileIo.write(input);
+        else
+            std::cout << input << std::endl;
+    } catch (...){
+        std::cout << "invalid input" << std::endl;
     }
-    dest[length] = '\0';
-}
-//runs the client until
-void Client::run() {
-    char buffer[4096];
-    int read_bytes;
-    int expected_data_len = sizeof(buffer);
-    unsigned long data_len;
-    long sent_bytes;
-    //run until the user sends '-1' which is supposed to represent end of input from the user
-    while (true) {
-        std::string input;
-        //get input from user
-        getline(std::cin, input,'\n');
-        str_copy(buffer,input);
-        //input -1 signals that the client is done sending things
-        if (strcmp(buffer, "-1") == 0) {
-            close(cl_socket);
-            break;
-        }
-        Parser parser = Parser(buffer);
-        if(!parser.validInput()) {
-            std::cout << "invalid input" << std::endl;
-            continue;
-        }
-        data_len = strlen(buffer) + 1;
-        sent_bytes = send(cl_socket, buffer, data_len, 0);
-        if (sent_bytes < 0) {
-            perror("failed to send to the client");
-            break;
-        }
-        read_bytes = recv(cl_socket, buffer, expected_data_len,0);
-        //cuts the communications
-        if (read_bytes ==0){
-            close(cl_socket);
-            break;
-        }
-        else if (read_bytes < 0){
-            perror("error when reading input");
-            exit(1);
-        }
-        else{
-            buffer[read_bytes] = '\0';
-            std::cout << buffer << std::endl;
-        }
-    }
+    m.unlock();
 }
 
-Client::Client(const char *ip, int port) {
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {
-        perror("error creating socket");
-        exit(1);
-    }
-    // initiate the struct
-    struct sockaddr_in sin;
-    memset(&sin, 0, sizeof(sin));
-    sin.sin_family = AF_INET;
-    sin.sin_addr.s_addr = inet_addr(ip);
-    sin.sin_port = htons(port);
-    // connect to the server
-    if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
-        perror("error connecting to server");
-        exit(1);
-    }
-    this->cl_socket = sock;
-}
 int main(int argc, char **arg) {
+    //initialization routine
     //validate enough arguments
     if (argc != 3) {
         std::cout << "illegal arguments" << std::endl;
@@ -93,8 +52,101 @@ int main(int argc, char **arg) {
         std::cout << "illegal port" << std::endl;
         exit(1);
     }
+    //initialize the connection
     char* ip_address = arg[1];
-    Client client = Client(ip_address,port);
-    client.run();
-    return 0;
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        perror("error creating socket");
+        exit(1);
+    }
+    struct sockaddr_in sin;
+    memset(&sin, 0, sizeof(sin));
+    sin.sin_family = AF_INET;
+    sin.sin_addr.s_addr = inet_addr(ip_address);
+    sin.sin_port = htons(port);
+    //attempt to connect to the server
+    if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) < 0) {
+        perror("error connecting to server");
+        exit(1);
+    }
+    SocketIO socketIo = SocketIO(sock);
+    //talking with the server
+    int choice;
+    std::string input;
+    FileIO fileIo = FileIO();
+    std::string options = socketIo.read();
+    std::string temp;
+    //run until the user puts 8, signifying the end of the connection to the client
+    while (true) {
+        std::cout << options;
+        getline(std::cin, input);
+        //std::cin >> choice;
+        //send choice to the user
+        try {
+            choice = std::stoi(input);
+        } catch (...){
+            std::cout << "invalid input user" << std::endl;
+            continue;
+        }
+        socketIo.write(input);
+        switch (choice) {
+            //read the given files and write them to the server
+            case 1:
+                std::cout << socketIo.read();
+                getline(std::cin, input);
+                //std::cin >> input;
+                fileIo.setPath(input);
+                try {
+                    socketIo.write(fileIo.read());
+                    std::cout << socketIo.read() << std::endl;
+                } catch (...){
+                    socketIo.write("invalid input");
+                    std::cout << "invalid path" << std::endl;
+                    break;
+                }
+                getline(std::cin, input);
+                fileIo.setPath(input);
+                try{
+                    socketIo.write(fileIo.read());
+                    std::cout << socketIo.read() << std::endl;
+                } catch (...){
+                    socketIo.write("invalid input");
+                    std::cout << "invalid path" << std::endl;
+                }
+                break;
+            //set KNN for the server
+            case 2:
+                //get input from user
+                std::cout << socketIo.read();
+                getline(std::cin, input);
+                if(input.empty()){
+                    char empty[3] = EMPTY;
+                    socketIo.write(empty);
+                }
+                else
+                    socketIo.write(input);
+                input = socketIo.read();
+                if(input != "OK")
+                    std::cout << input;
+                break;
+            case 3:
+            case 4:
+                std::cout << socketIo.read();
+                break;
+            case 5:
+                getline(std::cin, input);
+                {
+                    temp = socketIo.read();
+                    std::thread thread(downLoad,input,temp);
+                    thread.detach();
+                }
+                break;
+            case 8:
+                //todo: free all
+                close(sock);
+                return 0;
+            default:
+                std::cout << "invalid input" << std::endl;
+        }
+    }
 }
